@@ -33,6 +33,7 @@ const getMetadataToken = (): Promise<string> => {
     });
 
     req.on('error', (error) => {
+      console.error(error);
       reject(error);
     });
 
@@ -63,6 +64,7 @@ const getInstanceId = (token: string): Promise<string> => {
     });
 
     req.on('error', (error: Error) => {
+      console.error(error);
       reject(error);
     });
 
@@ -72,6 +74,7 @@ const getInstanceId = (token: string): Promise<string> => {
 
 const startMetricsExporter = async () => {
   const token = await getMetadataToken()
+  console.log('token:', token)
   const instanceId = await getInstanceId(token)
   const options = {
     url:
