@@ -46,6 +46,7 @@ const startMetricsExporter = () => {
   const exporter = new OTLPMetricExporter(options)
   let instanceId: string = ''
   getInstanceId().then((id) => {
+    console.log('instanceId:', id)
     instanceId = id
   })
 
