@@ -8,6 +8,7 @@ import {
 } from '@opentelemetry/sdk-metrics'
 import os from 'os'
 import * as https from 'https';
+import { get } from 'http'
 
 const getInstanceId = (): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -36,7 +37,8 @@ const getInstanceId = (): Promise<string> => {
   });
 };
 
-const startMetricsExporter = () => {
+const startMetricsExporter = async () => {
+  const instanceId = await getInstanceId()
   const options = {
     url:
       'http://' + "localhost" + '/v1/metrics', // Grafana Agent Metric을 받는 url
@@ -44,11 +46,8 @@ const startMetricsExporter = () => {
     concurrencyLimit: 5
   }
   const exporter = new OTLPMetricExporter(options)
-  let instanceId: string = ''
-  getInstanceId().then((id) => {
-    console.log('instanceId:', id)
-    instanceId = id
-  })
+  
+  console.log('instanceId:', instanceId)
 
   const resource = new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'backend-admin-metric',
