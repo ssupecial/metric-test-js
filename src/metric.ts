@@ -82,7 +82,7 @@ const startMetricsExporter = async () => {
   const instanceId = await getInstanceId(token)
   const options = {
     url:
-      'http://' + "localhost" + '/v1/metrics', // Grafana Agent Metric을 받는 url
+      'http://' + "localhost:4318" + '/v1/metrics', // Grafana Agent Metric을 받는 url
     headers: {},
     concurrencyLimit: 5
   }
