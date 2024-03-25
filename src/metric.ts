@@ -11,6 +11,8 @@ import * as http from 'http';
 import { get } from 'http'
 import * as dotenv from 'dotenv'
 
+dotenv.config()
+
 // const getMetadataToken = (): Promise<string> => {
 //   return new Promise((resolve, reject) => {
 //     const options = {
