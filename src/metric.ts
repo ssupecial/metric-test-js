@@ -7,7 +7,7 @@ import {
   PeriodicExportingMetricReader
 } from '@opentelemetry/sdk-metrics'
 import os from 'os'
-import https from 'https';
+import * as https from 'https';
 
 const getInstanceId = (): Promise<string> => {
   return new Promise((resolve, reject) => {
