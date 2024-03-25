@@ -11,10 +11,14 @@ import * as https from 'https';
 import { get } from 'http'
 
 const getInstanceId = (): Promise<string> => {
+  const token = process.env.TOKEN
   return new Promise((resolve, reject) => {
     const options = {
       hostname: '169.254.169.254',
       path: '/latest/meta-data/instance-id',
+      headers: {
+        'X-aws-ec2-metadata-token': token
+      },
       method: 'GET',
       timeout: 1000,
     };
