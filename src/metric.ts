@@ -10,8 +10,37 @@ import os from 'os'
 import * as https from 'https';
 import { get } from 'http'
 
-const getInstanceId = (): Promise<string> => {
-  const token = process.env.TOKEN
+const getMetadataToken = (): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: 'PUT',
+      hostname: '169.254.169.254',
+      path: '/latest/api/token',
+      headers: {
+        'X-aws-ec2-metadata-token-ttl-seconds': '21600', // 토큰 유효 시간(초)
+      },
+      timeout: 1000, // 요청 타임아웃
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        resolve(data); // 토큰 반환
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(error);
+    });
+
+    req.end();
+  });
+};
+
+const getInstanceId = (token: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: '169.254.169.254',
@@ -42,7 +71,8 @@ const getInstanceId = (): Promise<string> => {
 };
 
 const startMetricsExporter = async () => {
-  const instanceId = await getInstanceId()
+  const token = await getMetadataToken()
+  const instanceId = await getInstanceId(token)
   const options = {
     url:
       'http://' + "localhost" + '/v1/metrics', // Grafana Agent Metric을 받는 url
