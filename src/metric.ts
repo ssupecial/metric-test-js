@@ -10,36 +10,36 @@ import os from 'os'
 import * as https from 'https';
 import { get } from 'http'
 
-const getMetadataToken = (): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const options = {
-      method: 'PUT',
-      hostname: '169.254.169.254',
-      path: '/latest/api/token',
-      headers: {
-        'X-aws-ec2-metadata-token-ttl-seconds': '21600', // 토큰 유효 시간(초)
-      },
-      timeout: 1000, // 요청 타임아웃
-    };
+// const getMetadataToken = (): Promise<string> => {
+//   return new Promise((resolve, reject) => {
+//     const options = {
+//       method: 'PUT',
+//       hostname: '169.254.169.254',
+//       path: '/latest/api/token',
+//       headers: {
+//         'X-aws-ec2-metadata-token-ttl-seconds': '21600', // 토큰 유효 시간(초)
+//       },
+//       timeout: 1000, // 요청 타임아웃
+//     };
 
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-      res.on('end', () => {
-        resolve(data); // 토큰 반환
-      });
-    });
+//     const req = https.request(options, (res) => {
+//       let data = '';
+//       res.on('data', (chunk) => {
+//         data += chunk;
+//       });
+//       res.on('end', () => {
+//         resolve(data); // 토큰 반환
+//       });
+//     });
 
-    req.on('error', (error) => {
-      console.error(error);
-      reject(error);
-    });
+//     req.on('error', (error) => {
+//       console.error(error);
+//       reject(error);
+//     });
 
-    req.end();
-  });
-};
+//     req.end();
+//   });
+// };
 
 const getInstanceId = (token: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -73,7 +73,8 @@ const getInstanceId = (token: string): Promise<string> => {
 };
 
 const startMetricsExporter = async () => {
-  const token = await getMetadataToken()
+  // const token = await getMetadataToken()
+  const token = process.env.TOKEN
   console.log('token:', token)
   const instanceId = await getInstanceId(token)
   const options = {
