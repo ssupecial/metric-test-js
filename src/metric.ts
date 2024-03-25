@@ -9,6 +9,7 @@ import {
 import os from 'os'
 import * as https from 'https';
 import { get } from 'http'
+import * as dotenv from 'dotenv'
 
 // const getMetadataToken = (): Promise<string> => {
 //   return new Promise((resolve, reject) => {
