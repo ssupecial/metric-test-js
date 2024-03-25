@@ -7,7 +7,7 @@ import {
   PeriodicExportingMetricReader
 } from '@opentelemetry/sdk-metrics'
 import os from 'os'
-import * as https from 'https';
+import * as http from 'http';
 import { get } from 'http'
 import * as dotenv from 'dotenv'
 
@@ -54,7 +54,7 @@ const getInstanceId = (token: string): Promise<string> => {
       timeout: 1000,
     };
 
-    const req = https.request(options, (res) => {
+    const req = http.request(options, (res) => {
       let data: string = '';
       res.on('data', (chunk: Buffer) => {
         data += chunk.toString();
