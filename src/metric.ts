@@ -40,10 +40,7 @@ import { EC2Client, GetInstanceMetadataDefaultsCommand } from "@aws-sdk/client-e
 
 const getInstanceId = async () => {
   const client = new EC2Client({ region: "ap-northeast-2" });
-  const input = {
-    DryRun: true
-  }
-  const command = new GetInstanceMetadataDefaultsCommand(input);
+  const command = new GetInstanceMetadataDefaultsCommand();
   try {
     const response = await client.send(command);
     console.log(response)
