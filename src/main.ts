@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import startMetricsExporter from './metric';
+import startMetricsExporter from './metric-old';
 
 async function bootstrap() {
   await startMetricsExporter();
